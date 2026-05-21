@@ -137,3 +137,16 @@ class Manager:
             errors.append("Outside agreement dates")
 
         return errors
+
+    def validate_transfer(self, transfer: Transfer) -> list[str]:
+        errors = []
+        min_val = self.parameters.min_transfer
+        max_val = self.parameters.max_transfer
+
+        if transfer.amount_pln < min_val:
+            errors.append("Below minimum")
+
+        if transfer.amount_pln > max_val:
+            errors.append("Above maximum")
+
+        return errors
