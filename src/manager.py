@@ -124,3 +124,16 @@ class Manager:
     
     def is_blacklisted(self, name: str) -> bool:
         return name in self.blacklist
+
+    def check_transfer_errors(self, transfer: Transfer) -> list[str]:
+        errors = []
+    
+        tenant = self.tenants.get(transfer.tenant)
+        if tenant is None:
+            errors.append("Unknown tenant")
+            return errors
+
+        if transfer.date < tenant.date_agreement_from or transfer.date > tenant.date_agreement_to:
+            errors.append("Outside agreement dates")
+
+        return errors

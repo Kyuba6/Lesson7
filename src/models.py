@@ -33,6 +33,7 @@ class Apartment(BaseModel):
 
     
 class Tenant(BaseModel):
+    key: str
     name: str
     apartment: str
     room: str
@@ -47,7 +48,7 @@ class Tenant(BaseModel):
         with open(file_path, 'r') as file:
             data = json.load(file)
         assert isinstance(data, dict), "Expected a dictionary of tenants"
-        return {key: Tenant(**tenant) for key, tenant in data.items()}
+        return {key: Tenant(key=key, **tenant) for key, tenant in data.items()}
     
 
 class Transfer(BaseModel):
